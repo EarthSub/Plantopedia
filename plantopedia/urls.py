@@ -17,10 +17,17 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+
+from plants.views import home
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("", home, name="home"),
+    path("plants/", include("plants.urls")),
+    path("collections/", include("plant_collections.urls")),
+    path("care-log/", include("care_log.urls")),
 ]
 
 
