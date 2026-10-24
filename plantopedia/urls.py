@@ -18,9 +18,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from plants.views import home, page_not_found
 
-from plants.views import home
 
+handler404 = "plants.views.page_not_found"
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +29,7 @@ urlpatterns = [
     path("plants/", include("plants.urls")),
     path("collections/", include("plant_collections.urls")),
     path("care-log/", include("care_log.urls")),
+    path("<path:unmatched_path>", page_not_found, name="page_not_found"),
 ]
 
 
