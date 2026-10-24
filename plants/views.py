@@ -2,8 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpRequest, HttpResponse
 from plants.models import Plant, PlantCategory
 
-# Create your views here.
-
+#TODO Turn all FBVs into CBVs and create the remaining CBVs
 
 def home(request: HttpRequest) -> HttpResponse:
     plants = Plant.objects.select_related("category")[:6]

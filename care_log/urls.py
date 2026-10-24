@@ -4,4 +4,5 @@ from care_log import views
 
 urlpatterns = [
     path("", views.CareNoteListView.as_view(), name="care_note_list"),
+    path("new/", views.CareNoteCreateView.as_view(), name="care_note_create"),
 ]
