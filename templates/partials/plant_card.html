@@ -1,0 +1,21 @@
+{% load plant_tags %}
+<article class="plant-card">
+    {% if plant.image %}
+        <img class="plant-photo" src="{{ plant.image.url }}" alt="Photo of {{ plant.name }}">
+    {% else %}
+        <div class="plant-symbol" aria-hidden="true">
+            {{ plant.name|first|upper }}
+        </div>
+    {% endif %}
+    <div class="plant-card-body">
+        <a class="eyebrow" href="{% url 'category_detail' plant.category.pk %}">{{ plant.category.name }}</a>
+        <h2><a href="{% url 'plant_detail' plant.pk %}">{{ plant.name }}</a></h2>
+        <p>{{ plant.description|truncatewords:18 }}</p>
+        <div class="card-meta">
+            Water {{ plant.watering_days }} days apart
+            <span>
+                {{ plant.created_at|date:'M j, Y' }}
+            </span>
+        </div>
+    </div>
+</article>

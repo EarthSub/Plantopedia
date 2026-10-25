@@ -1,10 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% load plant_tags %}
+{% block title %}
+    {{ plant.name }} | Plantopedia
+{% endblock %}
+{% block content %}
+    <a class="back-link" href="{% url 'plant_list' %}">← Back to plants</a>
+    <section class="detail-layout">
+        {% if plant.image %}
+            <img class="detail-photo" src="{{ plant.image.url }}" alt="Photo of {{ plant.name }}">
+        {% else %}
+            <div class="detail-symbol" aria-hidden="true">
+                {{ plant.name|first|upper }}
+            </div>
+        {% endif %}
+        <div>
+            <a class="eyebrow" href="{% url 'category_detail' plant.category.pk %}">{{ plant.category.name }}</a>
+            <h1>{{ plant.name }}</h1>
+            <p class="detail-description">{{ plant.description|linebreaksbr }}</p>
+            <div class="care-facts">
+                <div>
+                    <span>CATEGORY</span>
+                    <strong>{{ plant.category.name }}</strong>
+                </div>
+                <div>
+                    <span>WATERING</span>
+                    <strong>{{ plant.watering_days|watering_schedule }}</strong>
+                </div>
+                <div>
+                    <span>ADDED</span>
+                    <strong>{{ plant.created_at|date:'M j, Y' }}</strong>
+                </div>
+            </div>
+            <div class="actions">
+                <a class="button" href="{% url 'plant_update' plant.pk %}">Edit plant</a>
+                <a class="danger-link" href="{% url 'plant_delete' plant.pk %}">Delete</a>
+            </div>
+        </div>
+    </section>
+    <section class="section-heading">
+        <div>
+            <p class="eyebrow">CARE RECORDS</p>
+            <h2>Notes for {{ plant.name }}</h2>
+        </div>
+        <a class="text-link" href="{% url 'care_note_create' %}">Add a care note →</a>
+    </section>
+{% if plant.care_notes.all %}
+    <div class="note-grid">
+        {% for note in plant.care_notes.all %}
+            <article class="note-card">
+                <p class="eyebrow">{{ note.created_at|date:'M j, Y' }}</p>
+                <h3>{{ note.title }}</h3>
+                <p>{{ note.note|truncatewords:24 }}</p>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="muted">There are no care notes for this plant yet.</p>
+{% endif %}
+{% endblock %}

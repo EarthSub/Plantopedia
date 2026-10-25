@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% load plant_tags %}
+{% block title %}
+    Categories | Plantopedia
+{% endblock %}
+{% block content %}
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">BROWSE BY TYPE</p>
+            <h1>Categories</h1>
+            <p>Each plant belongs to a category in the catalogue.</p>
+        </div>
+        <a class="button" href="{% url 'category_create' %}">Add a category</a>
+    </div>
+{% if categories %}
+    <div class="category-grid">
+        {% for category in categories %}
+            <a class="category-card" href="{% url 'category_detail' category.pk %}">
+                <span class="category-symbol">
+                    {% cycle '🌵' '🌴' '🌼' '🍃' %}
+                </span>
+                <h2>{{ category.name }}</h2>
+                <p>{{ category.description|default:'Plants in this category.'|truncatewords:16 }}</p>
+                <span class="eyebrow">{% category_plant_count category %} PLANTS →</span>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <section class="empty-state">
+        <div class="large-symbol">🪴</div>
+        <h2>No categories yet</h2>
+        <p>Create a category before adding plants.</p>
+        <a class="button" href="{% url 'category_create' %}">Add a category</a>
+    </section>
+{% endif %}
+{% endblock %}

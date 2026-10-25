@@ -1,10 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+    Collections | Plantopedia
+{% endblock %}
+{% block content %}
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">GROUP YOUR PLANTS</p>
+            <h1>Collections</h1>
+            <p>Keep related plants together in one collection.</p>
+        </div>
+        <a class="button" href="{% url 'collection_create' %}">Add a collection</a>
+    </div>
+{% if collections %}
+    <div class="collection-grid">
+        {% for collection in collections %}
+            <a class="collection-card" href="{% url 'collection_detail' collection.pk %}">
+                <div class="collection-symbol">🪴</div>
+                <div>
+                    <p class="eyebrow">{{ collection.plants.count }} PLANTS</p>
+                    <h2>{{ collection.title }}</h2>
+                    <p>{{ collection.description|default:'A plant collection.'|truncatewords:18 }}</p>
+                    <span class="text-link">View collection →</span>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <section class="empty-state">
+        <div class="large-symbol">🪴</div>
+        <h2>No collections yet</h2>
+        <p>Add a plant before creating a collection.</p>
+        <a class="button" href="{% url 'collection_create' %}">Add a collection</a>
+    </section>
+{% endif %}
+{% endblock %}

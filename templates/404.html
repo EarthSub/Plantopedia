@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+    Page not found | Plantopedia
+{% endblock %}
+{% block content %}
+    <section class="empty-state">
+        <div class="large-symbol">🪴</div>
+        <p class="eyebrow">404 · PAGE NOT FOUND</p>
+        <h1>This page did not take root.</h1>
+        <p>The address may have changed. You can return to the plant catalogue.</p>
+        <a class="button" href="{% url 'home' %}">Go to the home page</a>
+    </section>
+{% endblock %}

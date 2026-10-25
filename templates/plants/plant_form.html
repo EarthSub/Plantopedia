@@ -1,10 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+    {{ page_title }} | Plantopedia
+{% endblock %}
+{% block content %}
+    <a class="back-link" href="{% url 'plant_list' %}">← Back to plants</a>
+    <section class="form-layout">
+        <div class="form-intro">
+            <p class="eyebrow">PLANT DETAILS</p>
+            <h1>{{ page_title }}</h1>
+            <p>Add the information people need to understand this plant and its basic care.</p>
+            <div class="form-symbol">🌱</div>
+        </div>
+    <form method="post" enctype="multipart/form-data" class="form-card">
+        {% csrf_token %}
+        {% if plant.image %}
+            <div class="current-image">
+                <img src="{{ plant.image.url }}" alt="Current photo of {{ plant.name }}">
+                <span>Current photo</span>
+            </div>
+        {% endif %}
+        {% for field in form %}
+            <div class="form-field{% if field.errors %} has-error{% endif %}">
+                <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                </label>
+                {{ field }}
+                {% if field.help_text %}
+                    <small>
+                        {{ field.help_text }}
+                    </small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <small class="error">
+                        {{ error }}
+                    </small>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <p class="error">{{ error }}</p>
+        {% endfor %}
+        <button class="button" type="submit">Save plant</button>
+    </form>
+    </section>
+{% endblock %}

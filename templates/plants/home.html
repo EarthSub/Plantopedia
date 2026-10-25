@@ -1,10 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}Plantopedia | Plant care catalogue{% endblock %}
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <p class="eyebrow">A PLANT CARE CATALOGUE</p>
+        <h1>Make room for <em>one more leaf.</em></h1>
+        <p>Browse plant care details, organize plants into collections, and keep notes as you care for them.</p>
+        <div class="actions">
+            <a class="button" href="{% url 'plant_list' %}">Browse plants</a>
+            <a class="text-link" href="{% url 'collection_create' %}">Create a collection →</a>
+        </div>
+    </div>
+    <div class="hero-plant" aria-hidden="true">
+        <div class="sun"></div>
+        <span>🪴</span>
+    </div>
+</section>
 
-</body>
-</html>
+<section class="stats">
+    <div>
+        <strong>{{ plant_count }}</strong>
+        <span>plants</span>
+    </div>
+    <div>
+        <strong>{{ category_count }}</strong>
+        <span>categories</span>
+    </div>
+</section>
+
+<section class="section-heading">
+    <div>
+        <p class="eyebrow">FROM THE CATALOGUE</p>
+        <h2>Plants to explore</h2>
+    </div>
+    <a class="text-link" href="{% url 'plant_list' %}">View all plants →</a>
+</section>
+{% if plants %}
+    <div class="plant-grid">
+        {% for plant in plants %}
+            {% include 'partials/plant_card.html' %}
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-banner">
+        <span>🌱</span>
+        <div>
+            <h2>The catalogue is ready for its first plant</h2>
+            <p>Add a category first, then create a plant.</p>
+        </div>
+        <a class="button" href="{% url 'category_create' %}">Add a category</a>
+    </div>
+{% endif %}
+{% endblock %}

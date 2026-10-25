@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+    Care notes | Plantopedia
+{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <p class="eyebrow">PLANT OBSERVATIONS</p>
+        <h1>Care notes</h1>
+        <p>Keep a simple record of plant care and condition.</p>
+    </div>
+    <a class="button" href="{% url 'care_note_create' %}">Add a care note</a>
+</div>
+{% if notes %}
+    <div class="note-list">
+        {% for note in notes %}
+            <article class="note-card">
+                <div class="note-heading">
+                    <a class="eyebrow" href="{% url 'plant_detail' note.plant.pk %}">{{ note.plant.name }}</a>
+                    <span class="eyebrow">{{ note.created_at|date:'M j, Y' }}</span>
+                </div>
+                <h2>{{ note.title }}</h2>
+                <p>{{ note.note|linebreaksbr }}</p>
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <section class="empty-state">
+        <div class="large-symbol">📖</div>
+        <h2>No care notes yet</h2>
+        <p>Add a plant before creating a care note.</p>
+        <a class="button" href="{% url 'care_note_create' %}">Add a care note</a>
+    </section>
+{% endif %}
+{% endblock %}

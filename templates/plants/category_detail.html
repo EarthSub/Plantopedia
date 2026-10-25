@@ -1,10 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+    {{ category.name }} | Plantopedia
+{% endblock %}
+{% block content %}
+    <a class="back-link" href="{% url 'category_list' %}">← Back to categories</a>
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">CATEGORY</p>
+            <h1>{{ category.name }}</h1>
+            <p>{{ category.description|default:'Plants in this category.' }}</p>
+        </div>
+        <a class="button" href="{% url 'plant_create' %}">Add a plant</a>
+    </div>
+{% if plants %}
+    <div class="plant-grid">
+        {% for plant in plants %}
+            {% include 'partials/plant_card.html' %}
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-banner">
+        <span>🌱</span>
+        <div>
+            <h2>This category has no plants</h2>
+            <p>Add a plant to include it here.</p>
+        </div>
+        <a class="button" href="{% url 'plant_create' %}">Add a plant</a>
+    </div>
+{% endif %}
+{% endblock %}

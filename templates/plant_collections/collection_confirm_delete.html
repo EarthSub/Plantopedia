@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+    Delete {{ collection.title }} | Plantopedia
+{% endblock %}
+{% block content %}
+<section class="confirm-card">
+    <div class="large-symbol">🍂</div>
+    <p class="eyebrow">CONFIRM DELETE</p>
+    <h1>Delete {{ collection.title }}?</h1>
+    <p>This action cannot be undone. The plants in the collection will remain in the catalogue.</p>
+    <form method="post">
+        {% csrf_token %}
+        <button class="button button-danger" type="submit">Delete collection</button>
+        <a class="button button-quiet" href="{% url 'collection_detail' collection.pk %}">Cancel</a>
+    </form>
+</section>
+{% endblock %}

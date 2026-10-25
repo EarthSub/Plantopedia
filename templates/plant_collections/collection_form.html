@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+    {{ page_title }} | Plantopedia
+{% endblock %}
+{% block content %}
+    <a class="back-link" href="{% url 'collection_list' %}">← Back to collections</a>
+    <section class="form-layout">
+        <div class="form-intro">
+            <p class="eyebrow">PLANT COLLECTION</p>
+            <h1>{{ page_title }}</h1>
+            <p>Give the collection a name and choose the plants it contains.</p>
+            <div class="form-symbol">🪴</div>
+        </div>
+        <form method="post" class="form-card">
+            {% csrf_token %}{% for field in form %}
+                <div class="form-field">
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>{{ field }}
+                    {% if field.help_text %}
+                        <small>
+                            {{ field.help_text }}
+                        </small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <small class="error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            <button class="button" type="submit">Save collection</button>
+        </form>
+    </section>
+{% endblock %}

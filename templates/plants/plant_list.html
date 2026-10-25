@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+    Plants | Plantopedia
+{% endblock %}
+{% block content %}
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">THE PLANT CATALOGUE</p>
+            <h1>Plants</h1>
+            <p>Browse plants by category or care interval.</p>
+        </div>
+        <a class="button" href="{% url 'plant_create' %}">Add a plant</a>
+    </div>
+    <form class="filter-bar" method="get">
+        <select name="category" aria-label="Filter by category">
+            <option value="">All categories</option>
+            {% for category in categories %}
+                <option value="{{ category.pk }}" {% if selected_category == category.pk|stringformat:'s' %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <select name="sort" aria-label="Sort plants">
+            <option value="name" {% if sort_order == 'name' %}selected{% endif %}>Name A–Z</option>
+            <option value="-name" {% if sort_order == '-name' %}selected{% endif %}>Name Z–A</option>
+            <option value="watering_days" {% if sort_order == 'watering_days' %}selected{% endif %}>Watering interval</option>
+            <option value="-created_at" {% if sort_order == '-created_at' %}selected{% endif %}>Recently added</option>
+        </select>
+        <button class="button button-dark" type="submit">Apply</button>
+    </form>
+{% if plants %}
+    <div class="plant-grid">
+        {% for plant in plants %}
+            {% include 'partials/plant_card.html' %}
+        {% endfor %}
+    </div>
+{% else %}
+    <section class="empty-state">
+        <div class="large-symbol">🌱</div>
+        <h2>No plants found</h2>
+        <p>Add a plant to the catalogue.</p>
+        <a class="button" href="{% url 'plant_create' %}">Add a plant</a>
+    </section>
+{% endif %}
+{% endblock %}

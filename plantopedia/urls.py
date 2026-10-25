@@ -29,9 +29,11 @@ urlpatterns = [
     path("plants/", include("plants.urls")),
     path("collections/", include("plant_collections.urls")),
     path("care-log/", include("care_log.urls")),
-    path("<path:unmatched_path>", page_not_found, name="page_not_found"),
 ]
 
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+urlpatterns += [path("<path:unmatched_path>", page_not_found, name="page_not_found"),]
