@@ -3,6 +3,13 @@ from plants.models import Plant, PlantCategory
 
 
 class PlantForm(forms.ModelForm):
+    created_note = forms.CharField(
+        label="Record date",
+        initial="The date is set automatically when this plant is saved.",
+        required=False,
+        disabled=True,
+    )
+
     class Meta:
         model = Plant
         fields = [
