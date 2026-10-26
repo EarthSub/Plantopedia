@@ -24,7 +24,6 @@ from plants.views import home, page_not_found
 handler404 = "plants.views.page_not_found"
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path("", home, name="home"),
     path("plants/", include("plants.urls")),
     path("collections/", include("plant_collections.urls")),
