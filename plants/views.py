@@ -73,7 +73,8 @@ def plant_update(request:HttpRequest, pk) -> HttpResponse:
 
     context = {
         "form": form,
-        "page_title": "Update a plant"
+        "page_title": "Update a plant",
+        "plant": plant,
     }
 
     return render(request, "plants/plant_form.html", context)
